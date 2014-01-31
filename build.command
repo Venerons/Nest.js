@@ -3,7 +3,7 @@
 # ENVIRONMENT
 #
 PROJECTNAME="Nest.js"
-PROJECTVERSION="0.10.0"
+PROJECTVERSION="0.11.0"
 COPYRIGHT="Copyright (c) 2014 Daniele Veneroni"
 LICENSE="Licensed under the MIT License (X11 License)"
 PROJECTDIR="/Users/Venerons/github/local/Nest.js/"

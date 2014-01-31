@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.10.0 - 26/01/2014_  
+_Version 0.11.0 - 31/01/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -16,6 +16,10 @@ _Licensed under the MIT License (X11 License)_
 	- [.empty()](#empty)
 	- [.append()](#append)
 	- [.prepend()](#prepend)
+	- [.remove()](#remove)
+	- [.attr()](#attr)
+	- [.removeAttr()](#removeattr)
+	- [.val()](#val)
 	- [.width()](#width)
 	- [.height()](#height)
 
@@ -86,24 +90,24 @@ $$().notify("Welcome to Wonderland!", {
 
 Nest.js offers cross-browser copatibility and support for the current browsers:
 
-Browser                     | Version         | Support      
-:-------------------------- | :-------------: | :---:
-_Desktop_                   | -               | -
-Mozilla Firefox             | 11              | Full
-Google Chrome               | 32              | Full
-Apple Safari                | 6.1             | Almost Complete _(lacks of .vibrate(), .notify() only Safari 7+)_
-Opera                       | 12.1            | Almost Complete _(lacks of .notify(), .vibrate())_
-Microsoft Internet Explorer | 10              | Almost Complete _(lacks of .notify(), .vibrate(), .thread())_
-_Mobile_                    | -               | -
-Mozilla Firefox for Android | ?               | ?
-Mozilla Firefox OS          | ?               | ?
-Android Browser             | ?               | ?
-Google Chrome for Android   | ?               | ?
-iOS Safari                  | ?               | ?
-Opera Mobile                | ?               | ?
-Opera Mini                  | ?               | ?
-BlackBerry Browser          | ?               | ?
-MS Internet Explorer Mobile | ?               | ?
+Browser                     | Version | Support         | Notes
+:-------------------------- | :-----: | :-------------: | :---
+_Desktop_                   | -       | -               | -
+Mozilla Firefox             | 11      | Full            | 
+Google Chrome               | 32      | Full            | 
+Apple Safari                | 6.1     | Almost Complete | lacks of `.vibrate()`, `.notify()` only Safari 7+
+Opera                       | 12.1    | Almost Complete | lacks of `.notify()`, `.vibrate()`
+Microsoft Internet Explorer | 10      | Almost Complete | lacks of `.notify()`, `.vibrate()`, `.thread()`
+_Mobile_                    | -       | -               | 
+Mozilla Firefox for Android | ?       | ?               | 
+Mozilla Firefox OS          | ?       | ?               | 
+Android Browser             | ?       | ?               | 
+Google Chrome for Android   | ?       | ?               | 
+iOS Safari                  | ?       | ?               | 
+Opera Mobile                | ?       | ?               | 
+Opera Mini                  | ?       | ?               | 
+BlackBerry Browser          | ?       | ?               | 
+MS Internet Explorer Mobile | ?       | ?               | 
 
 ## APIs Documentation
 
@@ -162,6 +166,55 @@ Examples:
 
 ```js
 $$("#example").empty();
+```
+
+### .remove()
+
+Remove all the elements. The elements must be DOM elements, otherwise they will not be removed. It returns a Nest object containing the remaining elements that has not been removed, or an empty Nest object if all elements has been removed.
+
+Examples:
+
+```js
+$$('#example').remove();
+$$('li').remove()
+```
+
+### .attr()
+
+Set the attribute value to all selected elements, or get the attribute value of the first element.
+
+Examples:
+
+```js
+// return attribute value
+var isExampleHidden = $$('#example').attr('hidden');
+
+// set the attribute to a value
+$$("#example").attr('hidden', true);
+```
+
+### .removeAttr()
+
+Remove the attribute to all selected elements.
+
+Examples:
+
+```js
+$$("#example").removeAttr('hidden');
+```
+
+### .val()
+
+Set the value of all selected form elements, or get the value of the first element.
+
+Examples:
+
+```js
+// return value
+var exampleValue = $$('#example').val();
+
+// set the value
+$$('input').val(somevalue);
 ```
 
 ### .css()
@@ -306,14 +359,14 @@ var exampleHeight = $$("#example").height();
 
 ### .toggleFullscreen()
 
-Toggle fullscreen mode on the selected first element. The selected element must be a multimedia element, like for example a `<video>` tag.  
-If you want to just toggle the fullscreen mode on the entire page you must select as element `document.documentElement`.
+Toggle fullscreen mode on the selected first element. The selected element should be a multimedia element, like for example a `<video>` tag.  
+If you want to just toggle the fullscreen mode on the entire page you can execute this function on a empty selector, that is the same as executing this function on `document.documentElement`.
 
 Examples:
 
 ```js
 $$("video").toggleFullscreen();
-$$(document.documentElement).toggleFullscreen();
+$$().toggleFullscreen(); // same as $$(document.documentElement).toggleFullscreen();
 ```
 
 ### .visibility()

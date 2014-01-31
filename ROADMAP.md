@@ -5,13 +5,12 @@ _Released under MIT License. See [LICENSE.md](LICENSE.md) for further informatio
 
 This document outlines the general goals for Nest.js ongoing development.
 
-### Version 0.11.0 (Coming Soon)
+### Version 0.12.0 (Coming Soon)
+
+** Todo **
 
 * encapsulate functions on try..catch to better error handling
-* remove element via .remove() (see notes)
-* get/set the value of a form element via .val() - .val('value')
 * show/hide a element via .show() - .hide()
-* get/set element attribute via .attr('attribute') - .attr('attribute', 'value') - .removeAttr('attribute')
 * insert element before selector via .before(element) (see notes)
 * insert element after selector via .after(element) (see notes)
 
@@ -43,6 +42,7 @@ $$.ajax({
     error: function(xhr, type) { ... }
 });
 
+//#####################
 
 // Add and Remove Rules Directly to Stylesheets
 
@@ -79,21 +79,3 @@ element.insertAdjacentHTML('beforebegin', html);
 .after(html)
 
 element.insertAdjacentHTML('afterend', html);
-
-//#####################
-
-// Removing a specified element when knowing its parent node
-var d = document.getElementById('top');
-var d_nested = document.getElementById('nested');
-var throwawayNode = d.removeChild(d_nested);
-
-//#####################
-
-.remove()
-
-// Removing a specified element without having to specify its parent node
-var node = document.getElementById('nested');
-if (node.parentNode) {
-  node.parentNode.removeChild(node);
-}
-

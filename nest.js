@@ -1,7 +1,7 @@
 // ┌───────────────────────────────────────────────────────────────────────┐
 // │ Nest.js                                                               │
 // ├───────────────────────────────────────────────────────────────────────┤
-// │ Version 0.10.0 - 26/01/2014                                           │
+// │ Version 0.11.0 - 31/01/2014                                           │
 // ├───────────────────────────────────────────────────────────────────────┤
 // │ Copyright (c) 2014 Daniele Veneroni (http://venerons.github.io)       │
 // ├───────────────────────────────────────────────────────────────────────┤
@@ -13,10 +13,10 @@
 //***** INSTANCE **********************************************************************************
 
 function Nest(a) {
-	this.version = '0.10.0';
+	this.version = '0.11.0';
 	this.element = a || null;
-	this.length = a.length || 0;
 	this.first = a[0] || null;
+	this.length = a.length || 0;
 }
 
 //***** SELECTOR **********************************************************************************
@@ -121,6 +121,29 @@ Nest.fn.prepend = function (html) {
 	return this;
 };
 
+//***** REMOVE ************************************************************************************
+
+Nest.fn.remove = function () {
+	var a = [];
+	for (var i = 0; i < this.length; i++) {
+		if (this.element[i].parentNode) {
+			this.element[i].parentNode.removeChild(this.element[i]);
+		} else {
+			a.push(this.element[i]);
+		}
+	}
+	if (a.length > 0) {
+		this.element = a;
+		this.length = this.element.length;
+		this.first = this.element[0];
+	} else {
+		this.element = null;
+		this.length = 0;
+		this.first = null;
+	}
+	return this;
+};
+
 //***** CSS ***************************************************************************************
 
 Nest.fn.css = function (a, b) {
@@ -148,8 +171,8 @@ Nest.fn.css = function (a, b) {
 //***** ADD CLASS *********************************************************************************
 
 Nest.fn.addClass = function (classes) {
-	var array = classes.split(' ');
-	var arrayLength = array.length;
+	var array = classes.split(' '),
+		arrayLength = array.length;
 	for (var i = 0; i < this.length; i++) {
 		for (var j = 0; j < arrayLength; j++) {
 			this.element[i].classList.add(array[j]);
@@ -161,8 +184,8 @@ Nest.fn.addClass = function (classes) {
 //***** REMOVE CLASS ******************************************************************************
 
 Nest.fn.removeClass = function (classes) {
-	var array = classes.split(' ');
-	var arrayLength = array.length;
+	var array = classes.split(' '),
+		arrayLength = array.length;
 	for (var i = 0; i < this.length; i++) {
 		for (var j = 0; j < arrayLength; j++) {
 			this.element[i].classList.remove(array[j]);
@@ -174,8 +197,8 @@ Nest.fn.removeClass = function (classes) {
 //***** TOGGLE CLASS ******************************************************************************
 
 Nest.fn.toggleClass = function (classes) {
-	var array = classes.split(' ');
-	var arrayLength = array.length;
+	var array = classes.split(' '),
+		arrayLength = array.length;
 	for (var i = 0; i < this.length; i++) {
 		for (var j = 0; j < arrayLength; j++) {
 			this.element[i].classList.toggle(array[j]);
@@ -223,7 +246,7 @@ Nest.fn.off = function (eventName, func, bubbling) {
 
 //***** TRIGGER EVENT *****************************************************************************
 
-Nest.fn.trigger = window.CustomEvent ? function (type, object) {
+Nest.fn.trigger = 'CustomEvent' in window ? function (type, object) {
 	if (object) {
 		for (var i = 0; i < this.length; i++) {
 			this.element[i].dispatchEvent(new CustomEvent(type, { bubbles: false, cancelable: false, detail: object }));
@@ -250,6 +273,41 @@ Nest.fn.trigger = window.CustomEvent ? function (type, object) {
 	return this;
 };
 
+//***** ATTRIBUTE *********************************************************************************
+
+Nest.fn.attr = function (attr, value) {
+	if (value) {
+		for (var i = 0; i < this.length; i++) {
+			this.element[i].setAttribute(attr, value);
+		}
+		return this;
+	} else {
+		return this.first.getAttribute(attr);
+	}
+};
+
+//***** REMOVE ATTRIBUTE **************************************************************************
+
+Nest.fn.removeAttr = function (attr) {
+	for (var i = 0; i < this.length; i++) {
+		this.element[i].removeAttribute(attr);
+	}
+	return this;
+};
+
+//***** VALUE *************************************************************************************
+
+Nest.fn.val = function (value) {
+	if (value) {
+		for (var i = 0; i < this.length; i++) {
+			this.element[i].value = value;
+		}
+		return this;
+	} else {
+		return this.first.value;
+	}
+};
+
 //***** GET WIDTH *********************************************************************************
 
 Nest.fn.width = function () {
@@ -262,48 +320,59 @@ Nest.fn.height = function () {
 	return Math.max(this.first.offsetHeight, this.first.clientHeight);
 };
 
-//***** FULLSCEEN *********************************************************************************
+//***** FULLSCREEN *********************************************************************************
 
-Nest.fn.toggleFullscreen = document.fullscreenElement !== null ? function () {
-	if (document.fullscreenElement || document.mozFullscreenElement || document.webkitFullscreenElement || document.mozFullScreen || document.webkitIsFullScreen) {
+Nest.fn.toggleFullscreen = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled || false ? function () {
+	if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
 		if (document.exitFullscreen) {
+			// W3C standard
 			document.exitFullscreen();
 		} else if (document.mozCancelFullScreen) {
+			// Firefox 10+, Firefox for Android
 			document.mozCancelFullScreen();
-		} else if (document.webkitCancelFullScreen) {
-			document.webkitCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			// Chrome 20+, Safari 6+, Opera 15+, Chrome for Android, Opera Mobile 16+
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			// IE 11+
+			document.msExitFullscreen();
 		}
 	} else {
-		if (this.first.requestFullscreen) {
-			this.first.requestFullscreen();
-		} else if (this.first.mozRequestFullScreen) {
-			this.first.mozRequestFullScreen();
-		} else if (this.first.msRequestFullscreen) {
-			this.first.msRequestFullscreen();
-		} else if (this.first.webkitRequestFullScreen) {
+		var el = this.first || document.documentElement;
+		if (el.requestFullscreen) {
+			// W3C standard
+			el.requestFullscreen();
+		} else if (el.mozRequestFullScreen) {
+			// Firefox 10+, Firefox for Android
+			el.mozRequestFullScreen();
+		} else if (el.msRequestFullscreen) {
+			// IE 11+
+			el.msRequestFullscreen();
+		} else if (el.webkitRequestFullscreen) {
 			if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-				this.first.webkitRequestFullScreen();
+				// Safari 6+
+				el.webkitRequestFullscreen();
 			} else {
-				this.first.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+				// Chrome 20+, Opera 15+, Chrome for Android, Opera Mobile 16+
+				el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 			}
 		}
 	}
 	return this;
 } : function () {
-	// nothing...
-	return this;
+	// fullscreen APIs not supported, do nothing...
 };
 
 //***** VISIBILITY ********************************************************************************
 
 Nest.fn.visibility = function (obj) {
-	var visibilityEvent = document.hidden !== undefined ? 'visibilitychange' : document.mozHidden !== undefined ? 'mozvisibilitychange' : document.webkitHidden !== undefined ? 'webkitvisibilitychange' : document.msHidden !== undefined ? 'msvisibilitychange' : null;
-	//var hidden = document.hidden || document.mozHidden || document.msHidden || document.msHidden || document.webkitHidden;
+	var visibilityEvent = 'hidden' in document ? 'visibilitychange' : 'mozHidden' in document ? 'mozvisibilitychange' : 'webkitHidden' in document ? 'webkitvisibilitychange' : 'msHidden' in document ? 'msvisibilitychange' : null;
+	//var hidden = document.hidden || document.mozHidden || document.msHidden || document.webkitHidden;
 	//var visibilityState = document.visibilityState || document.mozVisibilityState || document.msVisibilityState || document.webkitVisibilityState;
 	obj.onHidden = obj.onHidden || function () {};
 	obj.onVisible = obj.onVisible || function () {};
 	new Nest(document).on(visibilityEvent, function () {
-		if (document.hidden || document.mozHidden || document.msHidden || document.msHidden || document.webkitHidden) {
+		if (document.hidden || document.mozHidden || document.msHidden || document.webkitHidden) {
 			obj.onHidden();
 		} else {
 			obj.onVisible();
@@ -314,7 +383,7 @@ Nest.fn.visibility = function (obj) {
 
 //***** NOTIFICATIONS *****************************************************************************
 
-Nest.fn.notify = window.Notification ? function (title, content) {
+Nest.fn.notify = 'Notification' in window ? function (title, content) {
 	// Firefox 22+, Chrome 22+, Safari 7+, BlackBerry Browser 10+
 	if (Notification.permission !== 'granted') {
 		Notification.requestPermission(function () {
