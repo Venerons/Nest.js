@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.11.0 - 31/01/2014_  
+_Version 0.12.0 - 04/02/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -46,7 +46,7 @@ _Licensed under the MIT License (X11 License)_
 
 ## About Nest.js
 
-### Using Nest.js
+## Using Nest.js
 
 Just add the script to your HTML page to import Nest.js
 
@@ -54,60 +54,71 @@ Just add the script to your HTML page to import Nest.js
 <script src="js/nest.min.js"></script>
 ```
 
-Then you are ready to rock! You can use `$$` to access Nest.js functions, first at all to select an element using css selector. Mind that if you provide a selector that target more than one element, all modifications will be applied to all elements that match that selector.  
+Then you are ready to rock! You can use `$$` or `Nest` to access Nest.js functions, first at all to select an element using css selector. Mind that if you provide a selector that target more than one element, all modifications will be applied to all elements that match that selector.  
 Here some examples:
 
 ```js
-var myElement = $$("#example");
-var myElement2 = $$("table tr td.someclass"); // all "td" elements that have the class "someclass"
-var myBody = $$("body");
-var myDocument = $$(document.documentElement); // direct injection of element
+// get element by id
+var myElement = $$('#example');
+
+// all 'td' elements that have the class 'someclass'
+var myElement2 = $$('table tr td.someclass');
+
+// all 'li' elements that are child of a 'ol' element
+var myBody = $$('ol > li');
+
+// direct injection of element
+var myDocument = $$(document.documentElement);
 ```
 
 Then you can use the function you want on the elements selected. Mind that most of the APIs are chainable, unless they return some value.
 
 ```js
-$$("#example").text("Hello There!").css("color", "rgb(123, 231, 213)");
+$$('#example').text('Hello There!').css('color', 'rgb(123, 231, 213)');
+
 $$(document.documentElement).toggleFullscreen();
-var exampleWidth = $$("#example").width();
+
+var exampleWidth = $$('#example').width();
 ```
 
-There are also many function that doesn't need any element. You can use these using any selector, but I suggest to use `$$()`:
+There are also many function that doesn't need any element:
 
 ```js
-$$().vibrate(1000);
+$$.vibrate(1000);
 
-var GUID = $$().guid();
+var GUID = $$.guid();
 
-$$().notify("Welcome to Wonderland!", {
-	dir: "auto",
-	body: "We are very happy that you have joined us!",
-	icon: "aVeryImpressiveImage.png"
+$$.notify('Welcome to Wonderland!', {
+	dir: 'auto',
+	body: 'We are very happy that you have joined us!',
+	icon: 'aVeryImpressiveImage.png'
 });
 ```
 
 ### Browser Support
 
-Nest.js offers cross-browser copatibility and support for the current browsers:
+Nest.js is cross-browser and offers support for almost any browser in their last 2 most recent versions, that means the current version and the previous.  
+Support means that I try to do anything to get the APIs work on that version and if someone finds a bug, I'll try to fix it. However, also if a browser is not supported can be still compatible, that means that it should work well but I don't care about making better on it.  
+So, essentially: if it's supported, it should works fine, and you can complain if doesn't. If it's compatible, it should works fine too, but don't complain if don't.
 
-Browser                     | Version | Support         | Notes
-:-------------------------- | :-----: | :-------------: | :---
-_Desktop_                   | -       | -               | -
-Mozilla Firefox             | 11      | Full            | 
-Google Chrome               | 32      | Full            | 
-Apple Safari                | 6.1     | Almost Complete | lacks of `.vibrate()`, `.notify()` only Safari 7+
-Opera                       | 12.1    | Almost Complete | lacks of `.notify()`, `.vibrate()`
-Microsoft Internet Explorer | 10      | Almost Complete | lacks of `.notify()`, `.vibrate()`, `.thread()`
-_Mobile_                    | -       | -               | 
-Mozilla Firefox for Android | ?       | ?               | 
-Mozilla Firefox OS          | ?       | ?               | 
-Android Browser             | ?       | ?               | 
-Google Chrome for Android   | ?       | ?               | 
-iOS Safari                  | ?       | ?               | 
-Opera Mobile                | ?       | ?               | 
-Opera Mini                  | ?       | ?               | 
-BlackBerry Browser          | ?       | ?               | 
-MS Internet Explorer Mobile | ?       | ?               | 
+Browser                     | Compatible | Supported | Support Level   | Notes
+:-------------------------- | :--------: | :-------: |:--------------: | :---
+_Desktop_                   | -          | -         | -               | -
+Mozilla Firefox             | 11         | 25 - 26   | Full            | 
+Google Chrome               | 32         | 32        | Full            | 
+Apple Safari                | 6.1        | 6.1 - 7   | Almost Complete | lacks of `.vibrate()`, `.notify()` only Safari 7+
+Opera                       | 12.1       | 17 - 18   | Almost Complete | lacks of `.notify()`, `.vibrate()`
+Microsoft Internet Explorer | 10         | 10 - 11   | Almost Complete | lacks of `.notify()`, `.vibrate()`, `.thread()`
+_Mobile_                    | -          |           | -               | 
+Mozilla Firefox for Android | ?          |           | ?               | 
+Mozilla Firefox OS          | ?          |           | ?               | 
+Android Browser/WebView     | ?          |           | ?               | 
+Google Chrome for Android   | ?          |           | ?               | 
+iOS Safari/Chrome/WebView   | ?          |           | ?               | 
+Opera Mobile                | ?          |           | ?               | 
+Opera Mini                  | ?          |           | ?               | 
+BlackBerry Browser          | ?          |           | ?               | 
+MS Internet Explorer Mobile | ?          |           | ?               | 
 
 ## APIs Documentation
 
@@ -118,8 +129,8 @@ Set the text inside of the selected elements, or get the text of the first eleme
 Examples:
 
 ```js
-$$("#example").text("ciao");
-var exampleText = $$("#example").text();
+$$('#example').text('ciao');
+var exampleText = $$('#example').text();
 ```
 
 ### .html()
@@ -130,8 +141,8 @@ If you just want to add plain text inside the element, you should use `.text()` 
 Examples:
 
 ```js
-$$("#example").html("<span style='color: blue'>ciao</span>");
-var exampleHTML = $$("#example").html();
+$$('#example').html('<span style="color: blue">ciao</span>');
+var exampleHTML = $$('#example').html();
 ```
 
 ### .append()
@@ -141,9 +152,9 @@ Append the passed parameter to the elements. The paramenter can be a string cont
 Examples:
 
 ```js
-$$("#example").append("<span style='color: blue'>ciao</span>");
-$$("#example").append($$("#example2"));
-$$("#example").append(document.createElement("div"));
+$$('#example').append('<span style="color: blue">ciao</span>');
+$$('#example').append($$('#example2'));
+$$('#example').append(document.createElement('div'));
 ```
 
 ### .prepend()
@@ -153,9 +164,9 @@ Prepend the passed parameter to the elements. The paramenter can be a string con
 Examples:
 
 ```js
-$$("#example").prepend("<span style='color: blue'>ciao</span>");
-$$("#example").prepend($$("#example2"));
-$$("#example").prepend(document.createElement("div"));
+$$('#example').prepend('<span style="color: blue">ciao</span>');
+$$('#example').prepend($$('#example2'));
+$$('#example').prepend(document.createElement('div'));
 ```
 
 ### .empty()
@@ -165,7 +176,7 @@ Remove all the content of the element. It's basically the same behaviour using `
 Examples:
 
 ```js
-$$("#example").empty();
+$$('#example').empty();
 ```
 
 ### .remove()
@@ -190,7 +201,7 @@ Examples:
 var isExampleHidden = $$('#example').attr('hidden');
 
 // set the attribute to a value
-$$("#example").attr('hidden', true);
+$$('#example').attr('hidden', true);
 ```
 
 ### .removeAttr()
@@ -200,7 +211,7 @@ Remove the attribute to all selected elements.
 Examples:
 
 ```js
-$$("#example").removeAttr('hidden');
+$$('#example').removeAttr('hidden');
 ```
 
 ### .val()
@@ -225,15 +236,15 @@ Examples:
 
 ```js
 // return background-color of the element
-var exampleBg = $$("#example").css("background-color");
+var exampleBg = $$('#example').css('background-color');
 
 // set the color to the element
-$$("#example").css("color", "#FFFFFF");
+$$('#example').css('color', '#FFFFFF');
 
 // set multiple css styles
-$$("#example").css({
-	"color": "#FFFFFF",
-	"border": "1px solid black"
+$$('#example').css({
+	'color': '#FFFFFF',
+	'border': '1px solid black'
 });
 ```
 
@@ -245,10 +256,10 @@ Examples:
 
 ```js
 // add one class
-$$("#example").addClass("class0");
+$$('#example').addClass('class0');
 
 // add multiple classes
-$$("#example").addClass("class1 class2");
+$$('#example').addClass('class1 class2');
 ```
 
 ### .removeClass()
@@ -259,10 +270,10 @@ Examples:
 
 ```js
 // remove one class
-$$("#example").removeClass("class0");
+$$('#example').removeClass('class0');
 
 // remove multiple classes
-$$("#example").removeClass("class1 class2");
+$$('#example').removeClass('class1 class2');
 ```
 
 ### .toggleClass()
@@ -273,10 +284,10 @@ Examples:
 
 ```js
 // toggle one class
-$$("#example").toggleClass("class0");
+$$('#example').toggleClass('class0');
 
 // toggle multiple classes
-$$("#example").toggleClass("class1 class2");
+$$('#example').toggleClass('class1 class2');
 ```
 
 ### .hasClass()
@@ -286,29 +297,29 @@ Return `true` if the class specified is present on the first element, `false` ot
 Examples:
 
 ```js
-var question = $$("#example").hasClass("myclass");
+var question = $$('#example').hasClass('myclass');
 ```
 
 ### .on()
 
-Register an event on the selected elements. You must pass the event name (without "on") and the function callback, and you can optionally specifiy if you want bubbing. Default bubbling value is `false`.
+Register an event on the selected elements. You must pass the event name (without 'on') and the function callback, and you can optionally specifiy if you want bubbing. Default bubbling value is `false`.
 
 Examples:
 
 ```js
-$$("#example").on("click", function (e) {
+$$('#example').on('click', function (e) {
 	/* do something */
 }, false);
 
 var myFunction = function (e) {
 	/* do something */
 };
-$$("#example").on("click", myFunction);
+$$('#example').on('click', myFunction);
 ```
 
 ### .off()
 
-Unregister an event on the selected elements. You must pass the event name (without "on") and the function reference, and you can optionally specifiy if you want bubbing. Default bubbling value is `false`.
+Unregister an event on the selected elements. You must pass the event name (without 'on') and the function reference, and you can optionally specifiy if you want bubbing. Default bubbling value is `false`.
 
 Examples:
 
@@ -316,9 +327,9 @@ Examples:
 var myFunction = function (e) {
 	/* do something */
 };
-$$("#example").on("click", myFunction, false);
+$$('#example').on('click', myFunction, false);
 
-$$("#example").off("click", myFunction);
+$$('#example').off('click', myFunction);
 ```
 
 ### .trigger()
@@ -328,13 +339,13 @@ Dispatch an event to the selected elements. You can optionally add an object con
 Examples:
 
 ```js
-$$("#example").trigger("click");
+$$('#example').trigger('click');
 
 
-$$("#example").on("click", function (event) {
-	$$("#example2").text(event.detail.myprop);
+$$('#example').on('click', function (event) {
+	$$('#example2').text(event.detail.myprop);
 });
-$$("#example").trigger("click", { myprop: mydata });
+$$('#example').trigger('click', { myprop: mydata });
 ```
 
 ### .width()
@@ -344,7 +355,7 @@ Return the width of the selected first element.
 Examples:
 
 ```js
-var exampleWidth = $$("#example").width();
+var exampleWidth = $$('#example').width();
 ```
 
 ### .height()
@@ -354,7 +365,7 @@ Return the height of the selected first element.
 Examples:
 
 ```js
-var exampleHeight = $$("#example").height();
+var exampleHeight = $$('#example').height();
 ```
 
 ### .toggleFullscreen()
@@ -365,7 +376,7 @@ If you want to just toggle the fullscreen mode on the entire page you can execut
 Examples:
 
 ```js
-$$("video").toggleFullscreen();
+$$('video').toggleFullscreen();
 $$().toggleFullscreen(); // same as $$(document.documentElement).toggleFullscreen();
 ```
 
@@ -377,7 +388,7 @@ You can provide both or only one function, wrapped in an object.
 Examples:
 
 ```js
-$$().visibility({
+$$.visibility({
 	onHidden: function () {
 		// the page is not visible, do something
 	},
@@ -394,10 +405,10 @@ Send a notification using browser notification system. If not available, use old
 Examples:
 
 ```js
-$$().notify("Notification Title", {
-	dir: "auto",
-	body: "Notification text",
-	icon: "path/to/image.png"
+$$.notify('Notification Title', {
+	dir: 'auto',
+	body: 'Notification text',
+	icon: 'path/to/image.png'
 });
 ```
 
@@ -410,9 +421,9 @@ Vibrate the device for a number of milliseconds or following a vibration pattern
 Examples:
 
 ```js
-$$().vibrate(1000); // Vibrate for one second
+$$.vibrate(1000); // Vibrate for one second
 
-$$().vibrate([200, 100, 200, 100]); // Vibration pattern [vibrationTime, pause,…]
+$$.vibrate([200, 100, 200, 100]); // Vibration pattern [vibrationTime, pause,…]
 ```
 
 ### .thread()
@@ -425,14 +436,14 @@ As a matter of fact, this function create a Web Workers injecting code without u
 Examples:
 
 ```js
-var myworker = $$().thread(function() {
+var myworker = $$.thread(function() {
 	self.onmessage = function(e) {
 		self.postMessage("'" + e.data + "' received!");
 	};
 });
 
 myworker.onmessage = function(e) {
-	document.getElementById("response").innerHTML = e.data;
+	document.getElementById('response').innerHTML = e.data;
 };
 
 myworker.postMessage('Example');
@@ -445,12 +456,12 @@ Return a RFC4122 compliant GUID, useful to generate IDs for, in example, HTML el
 Examples:
 
 ```js
-var GUID = $$().guid();
+var GUID = $$.guid();
 ```
 
 ### .loadScript()
 
-Dinamically load a script into the page. You can load JavaScript using `"js"` as parameter or CSS using `"css"`.  
+Dinamically load a script into the page. You can load JavaScript using `'js'` as parameter or CSS using `'css'`.  
 JavaScripts will be added at the bottom of the `<body>`, and CSS will be added at the bottom of the `<head>`.  
 You can optionally specify a callback function that will be executed once the loading and parse is done.
 
@@ -458,13 +469,13 @@ Examples:
 
 ```js
 // simple loading
-$$().loadScript("js", "path/to/script.js");
+$$.loadScript('js', 'path/to/script.js');
 
 // load the script and execute a callback when loaded
-$$().loadScript("js", "path/to/script.js", function () {
+$$.loadScript('js', 'path/to/script.js', function () {
 	/* do something */
 });
 
 // load a stylesheet
-$$().loadScript("css", "path/to/stylesheet.css");
+$$.loadScript('css', 'path/to/stylesheet.css');
 ```

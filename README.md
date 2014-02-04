@@ -13,35 +13,44 @@ Just add the script to your HTML page to import Nest.js
 <script src="js/nest.min.js"></script>
 ```
 
-Then you are ready to rock! You can use `$$` to access Nest.js functions, first at all to select an element using css selector. Mind that if you provide a selector that target more than one element, all modifications will be applied to all elements that match that selector.  
+Then you are ready to rock! You can use `$$` or `Nest` to access Nest.js functions, first at all to select an element using css selector. Mind that if you provide a selector that target more than one element, all modifications will be applied to all elements that match that selector.  
 Here some examples:
 
 ```js
-var myElement = $$("#example");
-var myElement2 = $$("table tr td.someclass"); // all "td" elements that have the class "someclass"
-var myBody = $$("body");
-var myDocument = $$(document.documentElement); // direct injection of element
+// get element by id
+var myElement = $$('#example');
+
+// all 'td' elements that have the class 'someclass'
+var myElement2 = $$('table tr td.someclass');
+
+// all 'li' elements that are child of a 'ol' element
+var myBody = $$('ol > li');
+
+// direct injection of element
+var myDocument = $$(document.documentElement);
 ```
 
 Then you can use the function you want on the elements selected. Mind that most of the APIs are chainable, unless they return some value.
 
 ```js
-$$("#example").text("Hello There!").css("color", "rgb(123, 231, 213)");
+$$('#example').text('Hello There!').css('color', 'rgb(123, 231, 213)');
+
 $$(document.documentElement).toggleFullscreen();
-var exampleWidth = $$("#example").width();
+
+var exampleWidth = $$('#example').width();
 ```
 
-There are also many function that doesn't need any element. You can use these using any selector, but I suggest to use `$$()`:
+There are also many function that doesn't need any element:
 
 ```js
-$$().vibrate(1000);
+$$.vibrate(1000);
 
-var GUID = $$().guid();
+var GUID = $$.guid();
 
-$$().notify("Welcome to Wonderland!", {
-	dir: "auto",
-	body: "We are very happy that you have joined us!",
-	icon: "aVeryImpressiveImage.png"
+$$.notify('Welcome to Wonderland!', {
+	dir: 'auto',
+	body: 'We are very happy that you have joined us!',
+	icon: 'aVeryImpressiveImage.png'
 });
 ```
 

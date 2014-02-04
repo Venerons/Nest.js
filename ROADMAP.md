@@ -5,7 +5,7 @@ _Released under MIT License. See [LICENSE.md](LICENSE.md) for further informatio
 
 This document outlines the general goals for Nest.js ongoing development.
 
-### Version 0.12.0 (Coming Soon)
+### Version 0.13.0 (Coming Soon)
 
 ** Todo **
 
@@ -20,6 +20,14 @@ This document outlines the general goals for Nest.js ongoing development.
 * get object dimensions in px via .offset('selector')
 * AJAX calls handling (see notes)
 * add/remove CSS rules on a stylesheet or create a new stylesheet with the rule (see notes)
+* Geolocation APIs
+* DeviceOrientation APIs
+* getUserMedia APIs
+* matchesSelector
+* Server Sent DOM events
+* Shared Web Workers
+* Web Sockets
+* WebRTC
 
 ### Notes
 
