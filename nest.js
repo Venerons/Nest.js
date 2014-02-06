@@ -1,7 +1,7 @@
 // ┌───────────────────────────────────────────────────────────────────────┐
 // │ Nest.js                                                               │
 // ├───────────────────────────────────────────────────────────────────────┤
-// │ Version 0.12.0 - 04/02/2014                                           │
+// │ Version 0.13.0 - 06/02/2014                                           │
 // ├───────────────────────────────────────────────────────────────────────┤
 // │ Copyright (c) 2014 Daniele Veneroni (http://venerons.github.io)       │
 // ├───────────────────────────────────────────────────────────────────────┤
@@ -35,7 +35,7 @@
 
 	Nest.version = '0.12.0';
 
-	//***** TEXT **************************************************************************************
+	//***** TEXT **********************************************************************************
 
 	Nest.fn.text = function (text) {
 		if (text) {
@@ -50,7 +50,7 @@
 		}
 	};
 
-	//***** HTML **************************************************************************************
+	//***** HTML **********************************************************************************
 
 	Nest.fn.html = function (html) {
 		if (html) {
@@ -65,7 +65,7 @@
 		}
 	};
 
-	//***** EMPTY *************************************************************************************
+	//***** EMPTY *********************************************************************************
 
 	Nest.fn.empty = function () {
 		for (var i = 0; i < this.length; i++) {
@@ -83,7 +83,7 @@
 		return this;
 	};
 
-	//***** APPEND HTML *******************************************************************************
+	//***** APPEND HTML ***************************************************************************
 
 	Nest.fn.append = function (html) {
 		if (typeof html === 'string') {
@@ -102,7 +102,7 @@
 		return this;
 	};
 
-	//***** PREPEND HTML ******************************************************************************
+	//***** PREPEND HTML **************************************************************************
 
 	Nest.fn.prepend = function (html) {
 		if (typeof html === 'string') {
@@ -121,7 +121,45 @@
 		return this;
 	};
 
-	//***** REMOVE ************************************************************************************
+	//***** BEFORE ********************************************************************************
+
+	Nest.fn.before = function (html) {
+		if (typeof html === 'string') {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].insertAdjacentHTML('beforebegin', html);
+			}
+		} else if (html instanceof Nest && html.first) {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].parentNode.insertBefore(html.first, this.element[i]);
+			}
+		} else {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].parentNode.insertBefore(html, this.element[i]);
+			}
+		}
+		return this;
+	};
+
+	//***** AFTER *********************************************************************************
+
+	Nest.fn.after = function (html) {
+		if (typeof html === 'string') {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].insertAdjacentHTML('afterend', html);
+			}
+		} else if (html instanceof Nest && html.first) {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].parentNode.insertBefore(html.first, this.element[i].nextSibling);
+			}
+		} else {
+			for (var i = 0; i < this.length; i++) {
+				this.element[i].parentNode.insertBefore(html, this.element[i].nextSibling);
+			}
+		}
+		return this;
+	};
+
+	//***** REMOVE ********************************************************************************
 
 	Nest.fn.remove = function () {
 		var a = [];
@@ -144,7 +182,7 @@
 		return this;
 	};
 
-	//***** CSS ***************************************************************************************
+	//***** CSS ***********************************************************************************
 
 	Nest.fn.css = function (a, b) {
 		if (typeof a === 'string' && !b) {
@@ -168,7 +206,7 @@
 		return this;
 	};
 
-	//***** ADD CLASS *********************************************************************************
+	//***** ADD CLASS *****************************************************************************
 
 	Nest.fn.addClass = function (classes) {
 		var array = classes.split(' '),
@@ -181,7 +219,7 @@
 		return this;
 	};
 
-	//***** REMOVE CLASS ******************************************************************************
+	//***** REMOVE CLASS **************************************************************************
 
 	Nest.fn.removeClass = function (classes) {
 		var array = classes.split(' '),
@@ -194,7 +232,7 @@
 		return this;
 	};
 
-	//***** TOGGLE CLASS ******************************************************************************
+	//***** TOGGLE CLASS **************************************************************************
 
 	Nest.fn.toggleClass = function (classes) {
 		var array = classes.split(' '),
@@ -207,44 +245,54 @@
 		return this;
 	};
 
-	//***** HAS CLASS *********************************************************************************
+	//***** HAS CLASS *****************************************************************************
 
 	Nest.fn.hasClass = function (c) {
 		return this.first.classList.contains(c);
 	};
 
-	//***** ON EVENT **********************************************************************************
+	//***** ON EVENT ******************************************************************************
 
-	Nest.fn.on = function (eventName, func, bubbling) {
+	Nest.fn.on = function (eventList, func, bubbling) {
 		bubbling = bubbling || false;
+		var array = eventList.split(' ');
 		if (this.first.addEventListener) {
-			for (var i = 0; i < this.length; i++) {
-				this.element[i].addEventListener(eventName, func, bubbling);
+			for (var j = 0, len = array.length; j < len; j++) {
+				for (var i = 0; i < this.length; i++) {
+					this.element[i].addEventListener(array[j], func, bubbling);
+				}
 			}
 		} else {
-			for (var i = 0; i < this.length; i++) {
-				this.element[i]['on' + eventName] = func;
+			for (var j = 0, len = array.length; j < len; j++) {
+				for (var i = 0; i < this.length; i++) {
+					this.element[i]['on' + array[j]] = func;
+				}
 			}
 		}
 		return this;
 	};
 
-	//***** OFF EVENT *********************************************************************************
+	//***** OFF EVENT *****************************************************************************
 
-	Nest.fn.off = function (eventName, func, bubbling) {
+	Nest.fn.off = function (eventList, func, bubbling) {
 		bubbling = bubbling || false;
+		var array = eventList.split(' ');
 		if (this.first.removeEventListener) {
-			for (var i = 0; i < this.length; i++) {
-				this.element[i].removeEventListener(eventName, func, bubbling);
+			for (var j = 0, len = array.length; j < len; j++) {
+				for (var i = 0; i < this.length; i++) {
+					this.element[i].removeEventListener(array[j], func, bubbling);
+				}
 			}
 		} else {
-			for (var i = 0; i < this.length; i++) {
-				this.element[i]['on' + eventName] = null;
+			for (var j = 0, len = array.length; j < len; j++) {
+				for (var i = 0; i < this.length; i++) {
+					this.element[i]['on' + array[j]] = null;
+				}
 			}
 		}
 	};
 
-	//***** TRIGGER EVENT *****************************************************************************
+	//***** TRIGGER EVENT *************************************************************************
 
 	Nest.fn.trigger = 'CustomEvent' in global ? function (type, object) {
 		if (object) {
@@ -273,7 +321,7 @@
 		return this;
 	};
 
-	//***** ATTRIBUTE *********************************************************************************
+	//***** ATTRIBUTE *****************************************************************************
 
 	Nest.fn.attr = function (attr, value) {
 		if (value) {
@@ -286,7 +334,7 @@
 		}
 	};
 
-	//***** REMOVE ATTRIBUTE **************************************************************************
+	//***** REMOVE ATTRIBUTE **********************************************************************
 
 	Nest.fn.removeAttr = function (attr) {
 		for (var i = 0; i < this.length; i++) {
@@ -295,7 +343,7 @@
 		return this;
 	};
 
-	//***** VALUE *************************************************************************************
+	//***** VALUE *********************************************************************************
 
 	Nest.fn.val = function (value) {
 		if (value) {
@@ -308,19 +356,19 @@
 		}
 	};
 
-	//***** GET WIDTH *********************************************************************************
+	//***** GET WIDTH *****************************************************************************
 
 	Nest.fn.width = function () {
 		return Math.max(this.first.offsetWidth, this.first.clientWidth);
 	};
 
-	//***** GET HEIGHT ********************************************************************************
+	//***** GET HEIGHT ****************************************************************************
 
 	Nest.fn.height = function () {
 		return Math.max(this.first.offsetHeight, this.first.clientHeight);
 	};
 
-	//***** FULLSCREEN *********************************************************************************
+	//***** FULLSCREEN ****************************************************************************
 
 	Nest.fn.toggleFullscreen = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled || false ? function () {
 		if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
@@ -364,15 +412,14 @@
 		return this;
 	};
 
-	//***** VISIBILITY ********************************************************************************
+	//***** VISIBILITY ****************************************************************************
 
 	Nest.visibility = function (obj) {
-		var visibilityEvent = 'hidden' in document ? 'visibilitychange' : 'mozHidden' in document ? 'mozvisibilitychange' : 'webkitHidden' in document ? 'webkitvisibilitychange' : 'msHidden' in document ? 'msvisibilitychange' : null;
 		//var hidden = document.hidden || document.mozHidden || document.msHidden || document.webkitHidden;
 		//var visibilityState = document.visibilityState || document.mozVisibilityState || document.msVisibilityState || document.webkitVisibilityState;
 		obj.onHidden = obj.onHidden || function () {};
 		obj.onVisible = obj.onVisible || function () {};
-		Nest(document).on(visibilityEvent, function () {
+		Nest(document).on('visibilitychange mozvisibilitychange webkitvisibilitychange msvisibilitychange', function () {
 			if (document.hidden || document.mozHidden || document.msHidden || document.webkitHidden) {
 				obj.onHidden();
 			} else {
@@ -381,7 +428,7 @@
 		});
 	};
 
-	//***** NOTIFICATIONS *****************************************************************************
+	//***** NOTIFICATIONS *************************************************************************
 
 	Nest.notify = 'Notification' in global ? function (title, content) {
 		// Firefox 22+, Chrome 22+, Safari 7+, BlackBerry Browser 10+
@@ -397,17 +444,19 @@
 		alert(title + '\n\n' + content.body);
 	};
 
-	//***** VIBRATION *********************************************************************************
+	//***** VIBRATION *****************************************************************************
 
-	navigator.vibrate = navigator.vibrate || navigator.mozVibrate || navigator.webkitVibrate || navigator.msVibrate || null;
+	navigator.vibrate = navigator.vibrate || navigator.mozVibrate || navigator.webkitVibrate || navigator.msVibrate || false;
 
 	Nest.vibrate = navigator.vibrate ? function (ms) {
 		navigator.vibrate(ms);
+	} : window.vibrate ? function (ms) {
+		window.vibrate(ms);
 	} : function () {
 		// nothing...
 	};
 
-	//***** THREAD ************************************************************************************
+	//***** THREAD ********************************************************************************
 
 	global.URL = global.URL || global.webkitURL || null;
 
@@ -420,7 +469,7 @@
 		return new Worker(URL.createObjectURL(blob));
 	};
 
-	//***** GUID **************************************************************************************
+	//***** GUID **********************************************************************************
 
 	Nest.guid = function () {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

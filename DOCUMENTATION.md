@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.12.0 - 04/02/2014_  
+_Version 0.13.0 - 06/02/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -16,6 +16,8 @@ _Licensed under the MIT License (X11 License)_
 	- [.empty()](#empty)
 	- [.append()](#append)
 	- [.prepend()](#prepend)
+	- [.before()](#before)
+	- [.after()](#after)
 	- [.remove()](#remove)
 	- [.attr()](#attr)
 	- [.removeAttr()](#removeattr)
@@ -169,6 +171,30 @@ $$('#example').prepend($$('#example2'));
 $$('#example').prepend(document.createElement('div'));
 ```
 
+### .before()
+
+Insert the passed parameter right before to the elements, as child of se same parent Node. The paramenter can be a string containing HTML, a Node/HTMLElement or a `Nest.js` object. If it's a `Nest.js` object, only the first element is moved.
+
+Examples:
+
+```js
+$$('#example').before('<span style="color: blue">ciao</span>');
+$$('#example').before($$('#example2'));
+$$('#example').before(document.createElement('div'));
+```
+
+### .after()
+
+Insert the passed parameter right after to the elements, as child of se same parent Node. The paramenter can be a string containing HTML, a Node/HTMLElement or a `Nest.js` object. If it's a `Nest.js` object, only the first element is moved.
+
+Examples:
+
+```js
+$$('#example').after('<span style="color: blue">ciao</span>');
+$$('#example').after($$('#example2'));
+$$('#example').after(document.createElement('div'));
+```
+
 ### .empty()
 
 Remove all the content of the element. It's basically the same behaviour using `.html('')`;
@@ -315,6 +341,8 @@ var myFunction = function (e) {
 	/* do something */
 };
 $$('#example').on('click', myFunction);
+
+$$('button').on('mouseover mouseout mousemove', myFunction);
 ```
 
 ### .off()
@@ -330,6 +358,8 @@ var myFunction = function (e) {
 $$('#example').on('click', myFunction, false);
 
 $$('#example').off('click', myFunction);
+
+$$('button').off('mouseover mouseout mousemove', myFunction);
 ```
 
 ### .trigger()

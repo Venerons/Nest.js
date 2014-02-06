@@ -7,15 +7,21 @@ This document outlines the general goals for Nest.js ongoing development.
 
 ### Version 0.13.0 (Coming Soon)
 
+** Done **
+
+* Added event list support on .on() and .off() methods
+* insert element before selector via .before(element)
+* insert element after selector via .after(element)
+
 ** Todo **
 
 * encapsulate functions on try..catch to better error handling
 * show/hide a element via .show() - .hide()
-* insert element before selector via .before(element) (see notes)
-* insert element after selector via .after(element) (see notes)
 
 ### Version 1.0.0 (Unscheduled)
 
+* .fadeIn() & .fadeOut()
+* drag & drop
 * .css() also set styles with common vendor prefixes if needed (otherwise using a new function, i.e. .vendor()/.prefix()/.prefixed()/.prefixcss())
 * get object dimensions in px via .offset('selector')
 * AJAX calls handling (see notes)
@@ -41,13 +47,13 @@ $$.json(url, [parameters], [callback]);
 $$.json(url, {id: 1980, user: 'dan'}, function(data){ ... });
 
 $$.ajax({
-    type: 'POST', // defaults to 'GET'
-    url: 'http://rest',
-    data: {user: 'venerons', pass: 'twitter'},
-    dataType: 'json', //'json', 'xml', 'html', or 'text'
-    async: true,
-    success: function(response) { ... },
-    error: function(xhr, type) { ... }
+	type: 'POST', // defaults to 'GET'
+	url: 'http://rest',
+	data: {user: 'venerons', pass: 'twitter'},
+	dataType: 'json', //'json', 'xml', 'html', or 'text'
+	async: true,
+	success: function(response) { ... },
+	error: function(xhr, type) { ... }
 });
 
 //#####################
@@ -75,15 +81,3 @@ addCSS('.header { position: fixed; height: 50px; width: 100%; }', document.style
 
 // The most common use case is creating a new stylesheet, but if you want to modify an
 // existing stylesheet, go for it.
-
-//#####################
-
-.before(html)
-
-element.insertAdjacentHTML('beforebegin', html);
-
-//#####################
-
-.after(html)
-
-element.insertAdjacentHTML('afterend', html);
