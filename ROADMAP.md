@@ -5,79 +5,24 @@ _Released under MIT License. See [LICENSE.md](LICENSE.md) for further informatio
 
 This document outlines the general goals for Nest.js ongoing development.
 
-### Version 0.13.0 (Coming Soon)
-
-** Done **
-
-* Added event list support on .on() and .off() methods
-* insert element before selector via .before(element)
-* insert element after selector via .after(element)
+### Version 0.14.0 (Coming Soon)
 
 ** Todo **
 
-* encapsulate functions on try..catch to better error handling
-* show/hide a element via .show() - .hide()
+* AJAX calls handling
+* add/remove CSS rules on a stylesheet or create a new stylesheet with the rule (see notes)
+* matchesSelector
 
 ### Version 1.0.0 (Unscheduled)
 
-* .fadeIn() & .fadeOut()
+* encapsulate functions on try..catch to better error handling
 * drag & drop
 * .css() also set styles with common vendor prefixes if needed (otherwise using a new function, i.e. .vendor()/.prefix()/.prefixed()/.prefixcss())
 * get object dimensions in px via .offset('selector')
-* AJAX calls handling (see notes)
-* add/remove CSS rules on a stylesheet or create a new stylesheet with the rule (see notes)
 * Geolocation APIs
 * DeviceOrientation APIs
 * getUserMedia APIs
-* matchesSelector
 * Server Sent DOM events
 * Shared Web Workers
 * Web Sockets
 * WebRTC
-
-### Notes
-
-// ajax calls
-$$.get(url, [parameters], [callback], [mime-type]);
-$$.post(url, [parameters], [callback], [mime-type]);
-$$.put(url, [parameters], [callback], [mime-type]);
-$$.delete(url, [parameters], [callback], [mime-type]);
-$$.json(url, [parameters], [callback]);
-
-$$.json(url, {id: 1980, user: 'dan'}, function(data){ ... });
-
-$$.ajax({
-	type: 'POST', // defaults to 'GET'
-	url: 'http://rest',
-	data: {user: 'venerons', pass: 'twitter'},
-	dataType: 'json', //'json', 'xml', 'html', or 'text'
-	async: true,
-	success: function(response) { ... },
-	error: function(xhr, type) { ... }
-});
-
-//#####################
-
-// Add and Remove Rules Directly to Stylesheets
-
-// We're all well versed in modifying styles via the element.style.propertyName method, and
-// we've used JavaScript toolkits to do it, but did you know you can actually read and write
-// rules within new and existing stylesheets?  The API is actually quite simple too!
-
-function addCSSRule(sheet, selector, rules, index) {
-	if(sheet.insertRule) {
-		sheet.insertRule(selector + '{' + rules + '}', index);
-	}
-	else {
-		sheet.addRule(selector, rules, index);
-	}
-}
-
-// Use it!
-addCSSRule(document.styleSheets[0], 'header', 'float: left');
-
-addCSS('.header { position: fixed; height: 50px; width: 100%; }')
-addCSS('.header { position: fixed; height: 50px; width: 100%; }', document.styleSheets[0])
-
-// The most common use case is creating a new stylesheet, but if you want to modify an
-// existing stylesheet, go for it.

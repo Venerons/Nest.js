@@ -1,7 +1,7 @@
 // ┌───────────────────────────────────────────────────────────────────────┐
 // │ Nest.js                                                               │
 // ├───────────────────────────────────────────────────────────────────────┤
-// │ Version 0.13.0 - 06/02/2014                                           │
+// │ Version 0.13.0 - 08/02/2014                                           │
 // ├───────────────────────────────────────────────────────────────────────┤
 // │ Copyright (c) 2014 Daniele Veneroni (http://venerons.github.io)       │
 // ├───────────────────────────────────────────────────────────────────────┤
@@ -182,6 +182,24 @@
 		return this;
 	};
 
+	//***** SHOW **********************************************************************************
+
+	Nest.fn.show = function () {
+		for (var i = 0; i < this.length; i++) {
+			this.element[i].removeAttribute('hidden');
+		}
+		return this;
+	};
+
+	//***** HIDE **********************************************************************************
+
+	Nest.fn.hide = function () {
+		for (var i = 0; i < this.length; i++) {
+			this.element[i].setAttribute('hidden', true);
+		}
+		return this;
+	};
+
 	//***** CSS ***********************************************************************************
 
 	Nest.fn.css = function (a, b) {
@@ -249,6 +267,38 @@
 
 	Nest.fn.hasClass = function (c) {
 		return this.first.classList.contains(c);
+	};
+
+	//***** FADE IN *******************************************************************************
+
+	Nest.fn.fadeIn = function (ms) {
+		ms = ms || 50;
+		var nestobj = this;
+		var animation = setInterval(function () {
+			var v = parseFloat(nestobj.css('opacity')) + 0.1;
+			nestobj.css('opacity', '' + v);
+			if (v === 1) {
+				clearInterval(animation);
+				return;
+			}
+		}, ms);
+		return nestobj;
+	};
+
+	//***** FADE OUT ******************************************************************************
+
+	Nest.fn.fadeOut = function (ms) {
+		ms = ms || 50;
+		var nestobj = this;
+		var animation = setInterval(function () {
+			var v = parseFloat(nestobj.css('opacity')) - 0.1;
+			nestobj.css('opacity', '' + v);
+			if (v === 0) {
+				clearInterval(animation);
+				return;
+			}
+		}, ms);
+		return nestobj;
 	};
 
 	//***** ON EVENT ******************************************************************************

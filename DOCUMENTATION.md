@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.13.0 - 06/02/2014_  
+_Version 0.13.0 - 08/02/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -21,6 +21,10 @@ _Licensed under the MIT License (X11 License)_
 	- [.remove()](#remove)
 	- [.attr()](#attr)
 	- [.removeAttr()](#removeattr)
+	- [.show()](#show)
+	- [.hide()](#hide)
+	- [.fadeIn()](#fadeIn)
+	- [.fadeOut()](#fadeOut)
 	- [.val()](#val)
 	- [.width()](#width)
 	- [.height()](#height)
@@ -106,10 +110,10 @@ So, essentially: if it's supported, it should works fine, and you can complain i
 Browser                     | Compatible | Supported | Support Level   | Notes
 :-------------------------- | :--------: | :-------: |:--------------: | :---
 _Desktop_                   | -          | -         | -               | -
-Mozilla Firefox             | 11         | 25 - 26   | Full            | 
+Mozilla Firefox             | 11         | 26 - 27   | Full            | 
 Google Chrome               | 32         | 32        | Full            | 
 Apple Safari                | 6.1        | 6.1 - 7   | Almost Complete | lacks of `.vibrate()`, `.notify()` only Safari 7+
-Opera                       | 12.1       | 17 - 18   | Almost Complete | lacks of `.notify()`, `.vibrate()`
+Opera                       | 12.1       | 18 - 19   | Almost Complete | lacks of `.notify()`, `.vibrate()`
 Microsoft Internet Explorer | 10         | 10 - 11   | Almost Complete | lacks of `.notify()`, `.vibrate()`, `.thread()`
 _Mobile_                    | -          |           | -               | 
 Mozilla Firefox for Android | ?          |           | ?               | 
@@ -238,6 +242,52 @@ Examples:
 
 ```js
 $$('#example').removeAttr('hidden');
+```
+
+### .show()
+
+Make the selected elements visible, if they was hidden. Use it in conjunction with `.hide()`.
+
+Examples:
+
+```js
+$$('#example').show();
+```
+
+### .hide()
+
+Make the selected elements hidden, if they was visible. Use it in conjunction with `.show()`.
+
+Examples:
+
+```js
+$$('#example').hide();
+```
+
+### .fadeIn()
+
+Make the selected elements fade in, making they visible. Use it in conjunction with `.fadeOut()`.
+
+Examples:
+
+```js
+$$('#example').fadeIn();
+
+// fadeIn in 200 milliseconds
+$$('#example').fadeIn(200);
+```
+
+### .fadeOut()
+
+Make the selected elements fade out, making they hidden. Use it in conjunction with `.fadeIn()`.
+
+Examples:
+
+```js
+$$('#example').fadeOut();
+
+// fadeOut in 200 milliseconds
+$$('#example').fadeOut(200);
 ```
 
 ### .val()
