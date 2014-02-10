@@ -7,6 +7,11 @@ This document outlines the general goals for Nest.js ongoing development.
 
 ### Version 0.14.0 (Coming Soon)
 
+** Done **
+
+* .queryString()
+* .toQueryString()
+
 ** Todo **
 
 * AJAX calls handling

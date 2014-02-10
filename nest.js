@@ -1,7 +1,7 @@
 // ┌───────────────────────────────────────────────────────────────────────┐
 // │ Nest.js                                                               │
 // ├───────────────────────────────────────────────────────────────────────┤
-// │ Version 0.13.0 - 08/02/2014                                           │
+// │ Version 0.14.0 - 10/02/2014                                           │
 // ├───────────────────────────────────────────────────────────────────────┤
 // │ Copyright (c) 2014 Daniele Veneroni (http://venerons.github.io)       │
 // ├───────────────────────────────────────────────────────────────────────┤
@@ -33,7 +33,7 @@
 
 	Nest.fn = Nest.prototype;
 
-	Nest.version = '0.12.0';
+	Nest.version = '0.14.0';
 
 	//***** TEXT **********************************************************************************
 
@@ -555,6 +555,38 @@
 			node.appendChild(script);
 		}
 	};
+
+	//***** QUERYSTRING ***************************************************************************
+
+	Nest.queryString = function (variable) {
+		var query = window.location.search.substring(1),
+			vars = query.split("&");
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			if (decodeURIComponent(pair[0]) == variable) {
+				return decodeURIComponent(pair[1]);
+			}
+		}
+		return false;
+	};
+
+	//***** TO QUERYSTRING ************************************************************************
+
+	Nest.toQueryString = function (list) {
+		var querystring = '?';
+		for (var key in list) {
+			if (list.hasOwnProperty(key)) {
+				querystring += encodeURIComponent(key.toString()) + '=' + encodeURIComponent(list[key].toString()) + '&';
+			}
+		}
+		return querystring;
+	};
+
+	var querystring = $$.toQueryString({
+		'usr': user,
+		'psw': password
+	});
+
 
 	//***** EXPOSURE ******************************************************************************
 

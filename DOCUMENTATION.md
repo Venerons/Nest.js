@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.13.0 - 08/02/2014_  
+_Version 0.14.0 - 10/02/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -43,6 +43,8 @@ _Licensed under the MIT License (X11 License)_
 
 * Utility
 	- [.loadScript()](#loadscript)
+	- [.queryString()](#querystring)
+	- [.toQueryString()](#toquerystring)
 	- [.toggleFullscreen()](#togglefullscreen)
 	- [.visibility()](#visibility)
 	- [.notify()](#notify)
@@ -558,4 +560,31 @@ $$.loadScript('js', 'path/to/script.js', function () {
 
 // load a stylesheet
 $$.loadScript('css', 'path/to/stylesheet.css');
+```
+
+### .queryString()
+
+Return the value of the specified paramether of the page's query string, decoding if necessary both keys and values. Return false if the specified paramether does not exists.
+
+Examples:
+
+```js
+// assuming a querystring i.e. '?user=john%20doe&pass=mypass'
+var user = $$.queryString('user'); // user -> 'john doe'
+var pass = $$.queryString('pass'); // pass -> 'mypass'
+```
+
+### .toQueryString()
+
+Return a formatted query string from an object containing key-value pairs. It will also properly encode both keys and values.
+
+Examples:
+
+```js
+var query = $$.toQueryString({
+	'user': 'john doe',
+	'pass': 'mypass'
+});
+
+alert(query); // '?user=john%20doe&pass=mypass'
 ```
