@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Nest.js by Venerons</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Venerons/Nest.js">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Venerons/Nest.js/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Venerons/Nest.js/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Nest.js</h1>
+          <p>web app coding made easy</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Venerons">Venerons</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p><em>Copyright (c) 2014 Daniele Veneroni.</em><br><em>Released under MIT License (X11 License). See <a href="https://github.com/Venerons/Nest.js/blob/master/LICENSE.md">LICENSE.md</a> for further information.</em></p>
+
+<p>Nest.js is an utility framework that let you build fast and efficient web app using simple and beautiful syntax.</p>
+
+<h2>
+<a name="download---documentation" class="anchor" href="#download---documentation"><span class="octicon octicon-link"></span></a><a href="https://github.com/Venerons/Nest.js/releases">Download</a> - <a href="https://github.com/Venerons/Nest.js/blob/master/DOCUMENTATION.md#nestjs-documentation">Documentation</a>
+</h2>
+
+<h2>
+<a name="using-nestjs" class="anchor" href="#using-nestjs"><span class="octicon octicon-link"></span></a>Using Nest.js</h2>
+
+<p>Just add the script to your HTML page to import Nest.js</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/nest.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>Then you are ready to rock! You can use <code>$$</code> or <code>Nest</code> to access Nest.js functions, first at all to select an element using css selector. Mind that if you provide a selector that target more than one element, all modifications will be applied to all elements that match that selector.<br>
+Here some examples:</p>
+
+<div class="highlight highlight-js"><pre><span class="c1">// get element by id</span>
+<span class="kd">var</span> <span class="nx">myElement</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="s1">'#example'</span><span class="p">);</span>
+
+<span class="c1">// all 'td' elements that have the class 'someclass'</span>
+<span class="kd">var</span> <span class="nx">myElement2</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="s1">'table tr td.someclass'</span><span class="p">);</span>
+
+<span class="c1">// all 'li' elements that are child of a 'ol' element</span>
+<span class="kd">var</span> <span class="nx">myBody</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="s1">'ol &gt; li'</span><span class="p">);</span>
+
+<span class="c1">// direct injection of element</span>
+<span class="kd">var</span> <span class="nx">myDocument</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">);</span>
+</pre></div>
+
+<p>Then you can use the function you want on the elements selected. Mind that most of the APIs are chainable, unless they return some value.</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">$$</span><span class="p">(</span><span class="s1">'#example'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s1">'Hello There!'</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="s1">'rgb(123, 231, 213)'</span><span class="p">);</span>
+
+<span class="nx">$$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">).</span><span class="nx">toggleFullscreen</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">exampleWidth</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="s1">'#example'</span><span class="p">).</span><span class="nx">width</span><span class="p">();</span>
+</pre></div>
+
+<p>There are also many function that doesn't need any element:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">$$</span><span class="p">.</span><span class="nx">vibrate</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">GUID</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">.</span><span class="nx">guid</span><span class="p">();</span>
+
+<span class="nx">$$</span><span class="p">.</span><span class="nx">notify</span><span class="p">(</span><span class="s1">'Welcome to Wonderland!'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">dir</span><span class="o">:</span> <span class="s1">'auto'</span><span class="p">,</span>
+    <span class="nx">body</span><span class="o">:</span> <span class="s1">'We are very happy that you have joined us!'</span><span class="p">,</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="s1">'aVeryImpressiveImage.png'</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>
+<a name="licensing" class="anchor" href="#licensing"><span class="octicon octicon-link"></span></a>Licensing</h2>
+
+<p>Nest.js is released under MIT License (X11 License). <a href="https://github.com/Venerons/Nest.js/blob/master/LICENSE.md">Read the full license</a>. </p>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>Created and maintained by Daniele Veneroni (<a href="http://twitter.com/Venerons">@Venerons</a>).</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
