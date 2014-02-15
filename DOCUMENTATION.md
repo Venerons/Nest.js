@@ -1,6 +1,6 @@
 # Nest.js Documentation
 
-_Version 0.14.0 - 10/02/2014_  
+_Version 0.14.0 - 15/02/2014_  
 _Copyright (c) 2014 Daniele Veneroni ([http://venerons.github.io](http://venerons.github.io))_  
 _Licensed under the MIT License (X11 License)_  
 
@@ -40,6 +40,12 @@ _Licensed under the MIT License (X11 License)_
 	- [.on()](#on)
 	- [.off()](#off)
 	- [.trigger()](#trigger)
+
+* AJAX
+	- [.ajax()](#ajax)
+	- [.get()](#get)
+	- [.post()](#post)
+	- [.json()](#json)
 
 * Utility
 	- [.loadScript()](#loadscript)
@@ -587,4 +593,57 @@ var query = $$.toQueryString({
 });
 
 alert(query); // '?user=john%20doe&pass=mypass'
+```
+
+### .ajax()
+
+Execute an AJAX request with the given paramethers
+
+Examples:
+
+```js
+$$.ajax({
+	type: 'GET' // get, post
+	url: 'mycgi.cgi'
+	async: true // true, false
+	dataType: 'text' // xml, json, html, text
+	data: 'user=johndoe&pass=mypass' // querystring or object like { user: 'johndoe', pass: 'mypass' }
+	success: function (data) {
+		// do something with data
+		// note: if you set dataType to 'json', data will be the json already parsed
+	}
+	error: function (error) {
+		alert(error);
+	}
+});
+```
+
+### .get()
+
+Execute an AJAX GET request with the given paramethers. It's a shortcut for the former `.ajax()`.
+
+Examples:
+
+```js
+$$.get(url, { id: 1234, user: 'johndoe' }, function (data) { ... });
+```
+
+### .post()
+
+Execute an AJAX POST request with the given paramethers. It's a shortcut for the former `.ajax()`.
+
+Examples:
+
+```js
+$$.post(url, { id: 1234, user: 'johndoe' }, function (data) { ... });
+```
+
+### .json()
+
+Execute an AJAX JSON request with the given paramethers. It's a shortcut for the former `.ajax()`. The data returned will be json already parsed.
+
+Examples:
+
+```js
+$$.json(url, { id: 1234, user: 'johndoe' }, function (data) { ... });
 ```

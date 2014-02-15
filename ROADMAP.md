@@ -5,16 +5,13 @@ _Released under MIT License. See [LICENSE.md](LICENSE.md) for further informatio
 
 This document outlines the general goals for Nest.js ongoing development.
 
-### Version 0.14.0 (Coming Soon)
+### Version 0.15.0 (Coming Soon)
 
 ** Done **
 
-* .queryString()
-* .toQueryString()
-
 ** Todo **
 
-* AJAX calls handling
+* .css() also set styles with common vendor prefixes if needed (otherwise using a new function, i.e. .vendor()/.prefix()/.prefixed()/.prefixcss())
 * add/remove CSS rules on a stylesheet or create a new stylesheet with the rule (see notes)
 * matchesSelector
 
@@ -22,7 +19,6 @@ This document outlines the general goals for Nest.js ongoing development.
 
 * encapsulate functions on try..catch to better error handling
 * drag & drop
-* .css() also set styles with common vendor prefixes if needed (otherwise using a new function, i.e. .vendor()/.prefix()/.prefixed()/.prefixcss())
 * get object dimensions in px via .offset('selector')
 * Geolocation APIs
 * DeviceOrientation APIs

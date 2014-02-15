@@ -1,7 +1,7 @@
 // ┌───────────────────────────────────────────────────────────────────────┐
 // │ Nest.js                                                               │
 // ├───────────────────────────────────────────────────────────────────────┤
-// │ Version 0.14.0 - 10/02/2014                                           │
+// │ Version 0.14.0 - 15/02/2014                                           │
 // ├───────────────────────────────────────────────────────────────────────┤
 // │ Copyright (c) 2014 Daniele Veneroni (http://venerons.github.io)       │
 // ├───────────────────────────────────────────────────────────────────────┤
@@ -582,11 +582,110 @@
 		return querystring;
 	};
 
-	var querystring = $$.toQueryString({
-		'usr': user,
-		'psw': password
-	});
+	//***** AJAX **********************************************************************************
 
+	Nest.ajax = function (options) {
+		if (options.url === undefined) {
+			return false;
+		}
+		options.type = options.type || 'GET';
+		options.async = options.async === undefined ? true : options.async;
+		options.dataType = options.dataType || 'xml';
+		options.contentType = options.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
+		options.success = options.success || function (data) { console.log(data); };
+		options.error = options.error || function (error) { console.error(error); };
+
+		try {
+			var httpRequest = new XMLHttpRequest();
+			httpRequest.onreadystatechange = function () {
+				/*
+				0 (uninitialized)
+				1 (loading)
+				2 (loaded)
+				3 (interactive)
+				4 (complete)
+				*/
+				if (httpRequest.readyState === 4) {
+					if (httpRequest.status === 200 || httpRequest.status === 0) {
+						var response;
+						if (options.dataType.toLowerCase() === 'xml') {
+							response = httpRequest.responseXML;
+						} else {
+							response = httpRequest.responseText;
+						}
+						if (options.dataType.toLowerCase() === 'json') {
+							response = JSON.parse(response);
+						}
+						options.success(response);
+					} else {
+						options.error('Sorry, an error occured! :(\n\nStatus: ' + httpRequest.status);
+					}
+				}
+			};
+
+			// if data is an object, convert it
+			if (options.data && typeof options.data !== 'string') {
+				options.data = Nest.toQueryString(options.data).slice(1);
+			}
+
+			// if it's a GET request, attach datas to the URL
+			if (options.data && typeof options.data === 'string' && options.type.toUpperCase() === 'GET') {
+				options.url += '?' + options.data;
+			}
+
+			// open the request
+			httpRequest.open(options.type.toUpperCase(), options.url, options.async);
+
+			// if it's a POST request, set the Content-Type header
+			if (options.type.toUpperCase() === 'POST') {
+				httpRequest.setRequestHeader('Content-Type', options.contentType);
+			}
+
+			// if it's a POST request send the data, otherwise send null
+			if (options.data && options.type.toUpperCase() === 'POST') {
+				httpRequest.send(options.data);
+			} else {
+				httpRequest.send(null);
+			}
+		} catch (e) {
+			options.error(e);
+		}
+	};
+
+	//***** GET ***********************************************************************************
+
+	Nest.get = function (url, data, success) {
+		Nest.ajax({
+			url: url,
+			type: 'GET',
+			data: data,
+			dataType: 'text',
+			success: success
+		});
+	};
+
+	//***** POST **********************************************************************************
+
+	Nest.post = function (url, data, success) {
+		Nest.ajax({
+			url: url,
+			type: 'POST',
+			data: data,
+			dataType: 'text',
+			success: success
+		});
+	};
+
+	//***** JSON **********************************************************************************
+
+	Nest.json = function (url, data, success) {
+		Nest.ajax({
+			url: url,
+			data: data,
+			dataType: 'json',
+			success: success
+		});
+	};
 
 	//***** EXPOSURE ******************************************************************************
 
